@@ -1,0 +1,22 @@
+.demand{
+    min-height: calc(100vh - 80px);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    .item{
+        width: 24%;
+        border: 1px solid red;
+        .title{
+            span{
+                display: inline-block;
+                &:nth-of-type(1){
+                    padding: 1px 3px;
+                    border-radius: 5px;
+                }
+                &:nth-last-of-type(1){
+                    color: #ccc;
+                }
+            }
+        }
+    }
+}
