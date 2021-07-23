@@ -6,7 +6,7 @@ interface LoginState {
 }
 
 const login = (state: LoginState = {
-    isLogin: false,
+    isLogin: true,
 }, action: AnyAction) => {
     switch (action.type) {
         case LOGIN:

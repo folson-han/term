@@ -1,14 +1,19 @@
 import React, { FC, useState } from "react";
 import css from "./Home.module.less";
-import { Route, Switch, Link, Redirect } from "react-router-dom";
+import { Route, Switch, Link, Redirect, useHistory } from "react-router-dom";
 import loadable from "@loadable/component";
 import { Layout, Dropdown, Menu, Space, Avatar, Divider } from "antd";
 import { DownOutlined, UserOutlined } from "@ant-design/icons";
 
 const Home: FC = () => {
+    const history = useHistory();
     const [activeProject, setActiveProject] = useState<string>("项目 0");
     function choose(menuInfo: any){
         setActiveProject(menuInfo.key);
+    }
+
+    function toUser(){
+        history.push("/user");
     }
 
     return <Layout className={css.home}>
@@ -23,35 +28,38 @@ const Home: FC = () => {
                         })
                     }
                 </Menu>}>
-                    <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+                    <span className="ant-dropdown-link" onClick={e => e.preventDefault()}>
                         { activeProject } <DownOutlined />
-                    </a>
+                    </span>
                 </Dropdown>
             </div>
             <div>
                 <Space split={<Divider type="vertical" />}>
-                    <Link to={"/home/demand"}>
+                    <Link to={"/document"}>
+                        文档
+                    </Link>
+                    <Link to={"/demand"}>
                         需求
                     </Link>
-                    <Link to={"/home/headway"}>
+                    <Link to={"/headway"}>
                         进展
-                    </Link>
-                    <Link to={"/home/document"}>
-                        文档
                     </Link>
                 </Space>
             </div>
             <div>
-                <Avatar size={36} icon={<UserOutlined />} />
+                <span onClick={toUser} style={{ cursor: "pointer" }}>
+                    <Avatar size={36} icon={<UserOutlined />} />
+                </span>
             </div>
         </Layout.Header>
         <Layout.Content className={css.content}>
             <Switch>
-                <Route path={"/home/demand"} component={loadable(() => import("./Demand/Demand"))} />
-                <Route path={"/home/headway"} component={loadable(() => import("./Headway/Headway"))} />
-                <Route path={"/home/document"} component={loadable(() => import("./Document/Document"))} />
+                <Route path={"/user"} component={loadable(() => import("./User/User"))} />
+                <Route path={"/demand"} component={loadable(() => import("./Demand/Demand"))} />
+                <Route path={"/headway"} component={loadable(() => import("./Headway/Headway"))} />
+                <Route path={"/document"} component={loadable(() => import("./Document/Document"))} />
                 <Route render={() => {
-                    return <Redirect to={"/home/demand"} />
+                    return <Redirect to={"/document"} />
                 }} />
             </Switch>
         </Layout.Content>
