@@ -1,8 +1,12 @@
 import React, {FC} from "react";
+import css from "./User.module.less";
+import { Upload, Button } from "antd";
 
 const User: FC = () => {
     return <>
-        用户
+        <div className={css.user}>
+
+        </div>
     </>
 }
 
