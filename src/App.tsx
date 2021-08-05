@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import './App.css';
-import { HashRouter as Router, Route, Switch } from "react-router-dom";
+import { HashRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import loadable from "@loadable/component";
 import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
@@ -15,10 +15,11 @@ const App: FC = () => {
             <ConfigProvider locale={zhCN}>
                 <Router>
                     <Switch>
-                        <Route path={"/"} render={() => {
-                            return <Home />
-                        }} />
                         <Route path={"/login"} component={loadable(() => import("./views/Login/Login"))} />
+                        <Route path={"/"} render={() => {
+                            let isLogin = store.getState().login.isLogin;
+                            return isLogin ? (<Home />) : (<Redirect to={"/login"} />);
+                        }} />
                         <Route path={"*"} component={loadable(() => import("./views/UnKnow/UnKnow"))} />
                     </Switch>
                 </Router>
