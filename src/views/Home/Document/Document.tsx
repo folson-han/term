@@ -1,10 +1,11 @@
 import React, { FC, useState } from "react";
 import css from "./Document.module.less";
-import {Button, Space, Modal, Input} from "antd";
-import { FileOutlined } from "@ant-design/icons";
+import {Button, Space, Modal, Input, Upload} from "antd";
+import { FileOutlined, PlusOutlined } from "@ant-design/icons";
 import ReactMarkdown from 'react-markdown';
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter';
 import {dark} from 'react-syntax-highlighter/dist/esm/styles/prism';
+import {UploadRequestOption as RcCustomRequestOptions} from "rc-upload/lib/interface";
 
 const components = {
     code({node, inline, className, children, ...props}: any) {
@@ -19,14 +20,26 @@ const components = {
     }
 }
 
+const uploadButton = (
+    <div>
+        <PlusOutlined />
+        <div style={{ marginTop: 8 }}>Upload</div>
+    </div>
+)
+
 const Document: FC = () => {
     const [visible, setVisible] = useState<boolean>(false);
     const [markdown, setMarkdown] = useState<string>("");
     const [description, setDescription] = useState<string>("");
+    const [fileList, setFileList] = useState<Array<any>>([]);
 
     function sendMarkdown(){
         setDescription(markdown);
         setVisible(false);
+    }
+
+    function uploadChange(info: any){
+        setFileList(info.fileList);
     }
 
     return <>
@@ -75,13 +88,24 @@ const Document: FC = () => {
                 </div>
             </div>
         </div>
-        <Modal visible={visible} width={"60vw"} onCancel={() => { setVisible(false); }} onOk={sendMarkdown}>
-            <div style={{ width: "100%", height: "100%", display: "flex" }}>
-                <div style={{ width: "50%" }}>
-                    <Input.TextArea rows={30} value={markdown} onChange={(e) => { setMarkdown(e.target.value) }} />
+        <Modal visible={visible} width={"60vw"} onCancel={() => { setVisible(false); }} onOk={sendMarkdown} closable={false}>
+            <div style={{ height: "70vh", overflowY: "auto" }}>
+                <div>
+                    <div>文档:</div>
+                    <div style={{ width: "100%", height: "100%", display: "flex" }}>
+                        <div style={{ width: "50%" }}>
+                            <Input.TextArea rows={30} value={markdown} onChange={(e) => { setMarkdown(e.target.value) }} />
+                        </div>
+                        <div style={{ width: "50%", height: "100%", padding: 5, boxSizing: "border-box" }}>
+                            <ReactMarkdown components={components} children={markdown} />
+                        </div>
+                    </div>
                 </div>
-                <div style={{ width: "50%", height: "100%", padding: 5, boxSizing: "border-box" }}>
-                    <ReactMarkdown components={components} children={markdown} />
+                <div>
+                    <div>附件:</div>
+                    <Upload listType={"picture-card"} beforeUpload={() => false} onChange={uploadChange}>
+                        {fileList.length >= 8 ? null : uploadButton}
+                    </Upload>
                 </div>
             </div>
         </Modal>
