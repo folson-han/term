@@ -54,7 +54,7 @@ const Home: FC = () => {
         </Layout.Header>
         <Layout.Content className={css.content}>
             <Switch>
-                <Route path={"/user"} component={loadable(() => import("./User/User"))} />
+                {/*<Route path={"/user"} component={loadable(() => import("./User/User"))} />*/}
                 <Route path={"/demand"} component={loadable(() => import("./Demand/Demand"))} />
                 <Route path={"/headway"} component={loadable(() => import("./Headway/Headway"))} />
                 <Route path={"/document"} component={loadable(() => import("./Document/Document"))} />

@@ -1,9 +1,14 @@
-import React, { FC, useState, useRef } from "react";
+import React, { FC, useState } from "react";
 import css from "./Login.module.less";
 import {Button, Form, Input, Space, Modal} from "antd";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import {LOGIN} from "../../actions";
 
 const Login: FC = () => {
-    const registryForm = useRef(null);
+    const dispatch = useDispatch();
+    const history = useHistory();
+    const [registryForm] = Form.useForm();
     const [visible, setVisible] = useState<boolean>(false);
 
     function showModal(){
@@ -15,7 +20,8 @@ const Login: FC = () => {
     }
 
     function loginSubmit(){
-
+        dispatch({ type: LOGIN });
+        history.push("/");
     }
 
     return <>
@@ -42,7 +48,7 @@ const Login: FC = () => {
             </div>
         </div>
         <Modal visible={visible} closable={false} footer={null} maskClosable={true} onCancel={() => { setVisible(false); }} destroyOnClose>
-            <Form ref={registryForm} onFinish={registrySubmit} labelCol={{ span: 8 }} wrapperCol={{ span: 16 }}>
+            <Form name={"loginForm"} form={registryForm} onFinish={registrySubmit} labelCol={{ span: 8 }} wrapperCol={{ span: 16 }}>
                 <Form.Item label={"username"} name={"username"} rules={[{ required: true, message: 'Please input your username!' }]}>
                     <Input />
                 </Form.Item>
