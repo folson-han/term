@@ -5,6 +5,7 @@ import { FileOutlined, PlusOutlined } from "@ant-design/icons";
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { dark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import Hover from "../../../components/Hover";
 
 const components = {
     code({node, inline, className, children, ...props}: any) {
@@ -107,41 +108,41 @@ const Document: FC = () => {
             </div>
         </Modal>
         <Modal visible={show} width={"60vw"} footer={null} onCancel={() => { setShow(false); }} closable={false} getContainer={false}>
-            <div className={css.description}>
-                <div className={css.title}>
+            <div>
+                <div style={{ fontSize: 18, fontWeight: "bolder" }}>
                     正文:
                 </div>
-                <div className={css.content}>
+                <div style={{ minHeight: 180, padding: 10, borderRadius: 5, background: "#f1f1f1", boxSizing: "border-box" }}>
                     <ReactMarkdown components={components} children={description} />
                 </div>
             </div>
-            <div className={css.annex}>
-                <div className={css.title}>
+            <div>
+                <div style={{ fontSize: 18, fontWeight: "bolder" }}>
                     附件:
                 </div>
-                <div className={css.content}>
+                <div>
                     <Space>
-                        <div className={css.item}>
+                        <Hover style={{ padding: 10, border: "1px solid #ccc", borderRadius: 5, cursor: "pointer", transition: "all .2s" }}>
                             <Space direction={"vertical"} align="center">
                                 <FileOutlined />
                                 xxxxx.png
                             </Space>
-                        </div>
-                        <div className={css.item}>
+                        </Hover>
+                        <Hover style={{ padding: 10, border: "1px solid #ccc", borderRadius: 5, cursor: "pointer", transition: "all .2s" }}>
                             <Space direction={"vertical"} align="center">
                                 <FileOutlined />
                                 xxxxx.png
                             </Space>
-                        </div>
-                        <div className={css.item}>
+                        </Hover>
+                        <Hover style={{ padding: 10, border: "1px solid #ccc", borderRadius: 5, cursor: "pointer", transition: "all .2s" }}>
                             <Space direction={"vertical"} align="center">
                                 <FileOutlined />
                                 xxxxx.png
                             </Space>
-                        </div>
+                        </Hover>
                     </Space>
                 </div>
-                <div className={css.desc}>
+                <div style={{ fontSize: 10 }}>
                     点击下载附件...
                 </div>
             </div>
